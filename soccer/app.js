@@ -62,12 +62,13 @@ function poolCheck(tpl, assign, ids) {
   let bad = false;
   const parts = tpl.positions.map(pos => {
     const have = ids.filter(i => assign[i] === pos).length;
-    if (have !== (pool[pos] || 0)) bad = true;
-    return `${esc(pos)} ${have}/${pool[pos] || 0}`;
+    const ok = have === (pool[pos] || 0);
+    if (!ok) bad = true;
+    return `<span class="${ok ? 'ok' : 'bad'}">${esc(pos)} ${have}/${pool[pos] || 0}</span>`;
   });
   const un = ids.filter(i => !assign[i]).length;
   if (un) bad = true;
-  return { pool, bad, text: parts.join(' · ') + (un ? ` · ${un} unassigned` : '') };
+  return { pool, bad, text: parts.join(' · ') + (un ? ` · <span class="bad">${un} unassigned</span>` : '') };
 }
 
 // ---------- views ----------
@@ -132,7 +133,7 @@ function viewGame(s, g) {
   <div class="chips">${s.roster.map(p => `<span class="chip ${v.present.includes(p.id) ? '' : 'off'}" data-act="toggle" data-pid="${p.id}">${esc(p.name)}</span>`).join('')}</div>
   <h2>Position pools</h2>
   <div class="row between"><span class="muted">Same position all half; positions change at halftime.</span><button class="primary" data-act="auto">Auto-assign</button></div>
-  <p class="${c1.bad ? 'warn' : 'muted'}">Half 1: ${c1.text}<br>Half 2: ${c2.text}</p>
+  <p class="muted">Half 1: ${c1.text}<br>Half 2: ${c2.text}</p>
   <div class="card"><table><tr><th>Player</th><th>Half 1</th><th>Half 2</th></tr>
   ${ids.map(id => `<tr><td>${esc(pname(s, id))}</td>${[1, 2].map(h => {
     const cur = (h === 1 ? v.h1 : v.h2)[id] || '';
@@ -231,9 +232,8 @@ const actions = {
   gameF(el) { editVer((s, g) => g[el.dataset.f] = el.value); },
   selVer(el) { ui.ver = el.dataset.id; render(); },
   addVer() {
-    editVer((s, g, _v, tpl) => {
+    editVer((s, g) => {
       const v = { id: uid(), name: 'Version ' + (g.versions.length + 1), present: s.roster.map(p => p.id), h1: {}, h2: {} };
-      if (tpl) autoAssign(s, v, tpl);
       g.versions.push(v); ui.ver = v.id;
     });
   },
