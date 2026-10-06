@@ -1,0 +1,257 @@
+{
+  "templates": [
+    {
+      "id": "sample-u8-5v5",
+      "name": "U8 5v5",
+      "positions": [
+        "DEF",
+        "MID",
+        "FWD"
+      ],
+      "field": {
+        "GK": 1,
+        "DEF": 2,
+        "MID": 1,
+        "FWD": 2
+      },
+      "pools": {
+        "5": {
+          "GK": 1,
+          "DEF": 2,
+          "MID": 1,
+          "FWD": 2
+        },
+        "6": {
+          "GK": 1,
+          "DEF": 2,
+          "MID": 2,
+          "FWD": 2
+        },
+        "7": {
+          "GK": 1,
+          "DEF": 2,
+          "MID": 2,
+          "FWD": 3
+        },
+        "8": {
+          "GK": 1,
+          "DEF": 3,
+          "MID": 2,
+          "FWD": 3
+        },
+        "9": {
+          "DEF": 3,
+          "MID": 2,
+          "FWD": 4
+        },
+        "10": {
+          "DEF": 4,
+          "MID": 2,
+          "FWD": 4
+        }
+      }
+    },
+    {
+      "id": "sample-u10-7v7",
+      "name": "U10 7v7",
+      "positions": [
+        "GK",
+        "DEF",
+        "MID",
+        "FWD"
+      ],
+      "field": {
+        "GK": 1,
+        "DEF": 2,
+        "MID": 3,
+        "FWD": 1
+      },
+      "pools": {
+        "7": {
+          "GK": 1,
+          "DEF": 2,
+          "MID": 3,
+          "FWD": 1
+        },
+        "8": {
+          "GK": 1,
+          "DEF": 2,
+          "MID": 3,
+          "FWD": 2
+        },
+        "9": {
+          "GK": 1,
+          "DEF": 3,
+          "MID": 3,
+          "FWD": 2
+        },
+        "10": {
+          "GK": 1,
+          "DEF": 3,
+          "MID": 4,
+          "FWD": 2
+        },
+        "11": {
+          "GK": 1,
+          "DEF": 4,
+          "MID": 4,
+          "FWD": 2
+        }
+      }
+    }
+  ],
+  "seasons": [
+    {
+      "id": "x4h3ekw",
+      "name": "Fall 2026 U8",
+      "template": "sample-u8-5v5",
+      "roster": [
+        {
+          "id": "xifhp8g",
+          "name": "Braxton"
+        },
+        {
+          "id": "ohz3qji",
+          "name": "Brayden"
+        },
+        {
+          "id": "w3bpca5",
+          "name": "Chase"
+        },
+        {
+          "id": "27gauv6",
+          "name": "Elias"
+        },
+        {
+          "id": "blbkcho",
+          "name": "Hendrik"
+        },
+        {
+          "id": "skj1nw5",
+          "name": "Issac"
+        },
+        {
+          "id": "ux1z7va",
+          "name": "Josiah"
+        },
+        {
+          "id": "62zjlpj",
+          "name": "Luke"
+        },
+        {
+          "id": "8bwsr37",
+          "name": "Remi"
+        },
+        {
+          "id": "i4syect",
+          "name": "Yuan"
+        }
+      ],
+      "games": []
+    },
+    {
+      "id": "gqqtbes",
+      "name": "Fall 2026 U10",
+      "template": "sample-u10-7v7",
+      "roster": [
+        {
+          "id": "2whtegh",
+          "name": "Carter"
+        },
+        {
+          "id": "03u29o3",
+          "name": "Crosby"
+        },
+        {
+          "id": "mw4yl47",
+          "name": "Hugo"
+        },
+        {
+          "id": "bqc6ahp",
+          "name": "Jett"
+        },
+        {
+          "id": "am5zpl9",
+          "name": "Kairo"
+        },
+        {
+          "id": "p02isbh",
+          "name": "Kohen"
+        },
+        {
+          "id": "yqudoe0",
+          "name": "Landon"
+        },
+        {
+          "id": "jh4d2tn",
+          "name": "Noah"
+        },
+        {
+          "id": "zptxbha",
+          "name": "Oliver"
+        },
+        {
+          "id": "axvhydm",
+          "name": "Stryker"
+        },
+        {
+          "id": "emoz9uz",
+          "name": "Woodrow"
+        }
+      ],
+      "games": [
+        {
+          "id": "zn3v4eg",
+          "label": "Week 4",
+          "opponent": "Team 7",
+          "date": "2026-10-10",
+          "versions": [
+            {
+              "id": "y98mjwz",
+              "name": "11 Players",
+              "present": [
+                "2whtegh",
+                "03u29o3",
+                "mw4yl47",
+                "bqc6ahp",
+                "am5zpl9",
+                "p02isbh",
+                "yqudoe0",
+                "jh4d2tn",
+                "zptxbha",
+                "axvhydm",
+                "emoz9uz"
+              ],
+              "h1": {
+                "mw4yl47": "GK",
+                "am5zpl9": "FWD",
+                "03u29o3": "DEF",
+                "jh4d2tn": "MID",
+                "zptxbha": "MID",
+                "p02isbh": "MID",
+                "2whtegh": "MID",
+                "bqc6ahp": "FWD",
+                "yqudoe0": "DEF",
+                "axvhydm": "DEF",
+                "emoz9uz": "DEF"
+              },
+              "h2": {
+                "mw4yl47": "FWD",
+                "am5zpl9": "GK",
+                "2whtegh": "FWD",
+                "03u29o3": "MID",
+                "bqc6ahp": "DEF",
+                "p02isbh": "DEF",
+                "yqudoe0": "MID",
+                "jh4d2tn": "DEF",
+                "zptxbha": "DEF",
+                "axvhydm": "MID",
+                "emoz9uz": "MID"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
