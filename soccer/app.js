@@ -29,7 +29,7 @@ function remove(col, id) { ov[col][id] = null; persist(); }
 // ---------- routing ----------
 const route = () => {
   const p = (location.hash.slice(1) || '/').split('/').filter(Boolean);
-  return { page: p[0] || 'home', id: p[1], sub: p[2], sid2: p[3] };
+  return { page: p[0] || 'home', id: p[1], sub: p[2], sid2: p[3], mode: p[4] };
 };
 const go = h => { location.hash = h; };
 
@@ -108,6 +108,59 @@ function viewSeason(s) {
   <h2></h2><button class="danger" data-act="delSeason">Delete season</button>`;
 }
 
+function segCard(s, tpl, sg, title, tag, cls) {
+  return `<div class="card seg ${cls || ''}"><h3><span>${title}</span><span class="muted">${tag}</span></h3>
+    ${tpl.positions.map(pos => {
+      const f = sg.field[pos] || [], b = sg.bench[pos] || [];
+      if (!f.length && !b.length) return '';
+      const sub = (sg.in[pos] || []).length ? `<div class="subs"><span class="in">▲ ${names(s, sg.in[pos])}</span> in · <span class="out">▼ ${names(s, sg.out[pos])}</span> out</div>` : '';
+      return `<div class="pos"><b>${esc(pos)}</b><div><div>${names(s, f)}</div>${sub}${b.length ? `<div class="bench">Bench: ${names(s, b)}</div>` : ''}</div></div>`;
+    }).join('')}</div>`;
+}
+const segTag = (hi, si) => si === 0 ? (hi ? 'Half 2 start' : 'Starting lineup') : 'Swap';
+const stepKey = gid => 'coachtools.soccer.step.' + gid;
+const getStep = gid => { try { return Math.max(0, Math.min(7, +localStorage.getItem(stepKey(gid)) || 0)); } catch (e) { return 0; } };
+const setStep = (gid, n) => { try { localStorage.setItem(stepKey(gid), String(Math.max(0, Math.min(7, n)))); } catch (e) {} render(); };
+
+function viewPlay(s, g) {
+  const tpl = get('templates', s.template);
+  if (!g.versions.find(v => v.id === ui.ver)) ui.ver = g.versions[0] && g.versions[0].id;
+  const v = g.versions.find(x => x.id === ui.ver);
+  let html = `<div class="row between"><a href="#/season/${s.id}/game/${g.id}">← Exit game mode</a>
+    <span class="muted">${esc(g.label)}${g.opponent ? ' vs ' + esc(g.opponent) : ''}</span></div>`;
+  if (g.versions.length > 1) html += `<div class="tabs">${g.versions.map(x => `<span class="tab ${x.id === ui.ver ? 'active' : ''}" data-act="selVer" data-id="${x.id}">${esc(x.name)}</span>`).join('')}</div>`;
+  if (!tpl || !v) return html + `<p class="warn">Set up a template and a lineup version first.</p>`;
+  const ids = presentIds(s, v);
+  const c1 = poolCheck(tpl, v.h1, ids), c2 = poolCheck(tpl, v.h2, ids);
+  if (!c1.pool) return html + `<p class="warn">${c1.text}</p>`;
+  if (c1.bad || c2.bad) html += `<p class="warn">Pools aren't complete — Half 1: ${c1.text}<br>Half 2: ${c2.text}</p>`;
+  const rot = rotateGame(tpl.positions, tpl.field, v.h1, v.h2, ids);
+  const all = [...rot.h1, ...rot.h2];
+  const label = i => `${SEG_NAMES[i >> 2][i & 3]}`;
+  const step = getStep(g.id);
+  html += `<h2 style="margin-top:8px">Now: ${label(step)} <span class="muted">(${step + 1} of 8)</span></h2>`;
+  html += segCard(s, tpl, all[step], 'On the field', segTag(step >> 2, step & 3), 'curr play');
+  if (step < 7) {
+    const nx = all[step + 1];
+    html += `<h2>Next: ${label(step + 1)}</h2>`;
+    html += (step + 1) === 4
+      ? segCard(s, tpl, nx, 'Halftime — new positions', 'Half 2 start', 'play')
+      : segCard(s, tpl, nx, 'Swap', '', 'play');
+  } else html += `<p class="muted">That's the last segment.</p>`;
+  html += `<div class="bigbtns"><button data-act="stepBack" ${step === 0 ? 'disabled' : ''}>◀ Back</button>
+    <button class="primary" data-act="stepNext" ${step === 7 ? 'disabled' : ''}>Next ▶</button></div>`;
+  const absent = s.roster.filter(p => !v.present.includes(p.id));
+  html += `<details class="card"><summary>Someone different showed up</summary>
+    <p class="muted">Replace a kid with another, keeping their position and rotation slot in both halves.</p>
+    <div class="row"><select id="rpOut">${ids.map(i => `<option value="${i}">${esc(pname(s, i))}</option>`).join('')}</select> → 
+    <select id="rpIn">${absent.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select>
+    <button data-act="replacePlayer" ${absent.length ? '' : 'disabled'}>Swap</button></div></details>`;
+  html += `<details class="card"><summary>Full rotation</summary>${[rot.h1, rot.h2].map((segs, hi) => segs.map((sg, si) =>
+    segCard(s, tpl, sg, label(hi * 4 + si), segTag(hi, si), hi * 4 + si === step ? 'curr' : '')).join('')).join('')}</details>
+    <button class="danger" data-act="stepReset">Reset to start</button>`;
+  return html;
+}
+
 function viewGame(s, g) {
   const tpl = get('templates', s.template);
   if (!g.versions.find(v => v.id === ui.ver)) ui.ver = g.versions[0] && g.versions[0].id;
@@ -128,7 +181,7 @@ function viewGame(s, g) {
   const ids = presentIds(s, v);
   const c1 = poolCheck(tpl, v.h1, ids), c2 = poolCheck(tpl, v.h2, ids);
   html += `
-  <div class="row"><button data-act="renVer">Rename</button><button data-act="dupVer">Duplicate</button><button class="danger" data-act="delVer">Delete</button><button onclick="print()">Print</button></div>
+  <div class="row"><button class="primary" data-act="playMode">▶ Game mode</button><button data-act="renVer">Rename</button><button data-act="dupVer">Duplicate</button><button class="danger" data-act="delVer">Delete</button><button onclick="print()">Print</button></div>
   <h2>Who's here (${ids.length})</h2>
   <div class="chips">${s.roster.map(p => `<span class="chip ${v.present.includes(p.id) ? '' : 'off'}" data-act="toggle" data-pid="${p.id}">${esc(p.name)}</span>`).join('')}</div>
   <h2>Position pools</h2>
@@ -143,15 +196,7 @@ function viewGame(s, g) {
   if (!c1.pool) return html;
   const rot = rotateGame(tpl.positions, tpl.field, v.h1, v.h2, ids);
   html += `<h2>Rotation</h2>`;
-  [rot.h1, rot.h2].forEach((segs, hi) => segs.forEach((sg, si) => {
-    html += `<div class="card seg"><h3><span>${SEG_NAMES[hi][si]}</span><span class="muted">${si === 0 ? (hi ? 'Half 2 start' : 'Starting lineup') : 'Swap'}</span></h3>
-      ${tpl.positions.map(pos => {
-        const f = sg.field[pos] || [], b = sg.bench[pos] || [];
-        if (!f.length && !b.length) return '';
-        const sub = (sg.in[pos] || []).length ? `<div class="subs"><span class="in">▲ ${names(s, sg.in[pos])}</span> in · <span class="out">▼ ${names(s, sg.out[pos])}</span> out</div>` : '';
-        return `<div class="pos"><b>${esc(pos)}</b><div><div>${names(s, f)}</div>${sub}${b.length ? `<div class="bench">Bench: ${names(s, b)}</div>` : ''}</div></div>`;
-      }).join('')}</div>`;
-  }));
+  [rot.h1, rot.h2].forEach((segs, hi) => segs.forEach((sg, si) => { html += segCard(s, tpl, sg, SEG_NAMES[hi][si], segTag(hi, si)); }));
   const played = {};
   ids.forEach(i => played[i] = 0);
   [...rot.h1, ...rot.h2].forEach(sg => Object.values(sg.field).flat().forEach(p => played[p]++));
@@ -190,16 +235,27 @@ function render() {
     if (!s) html = '<p>Season not found. <a href="#/">Back</a></p>';
     else if (r.sub === 'game') {
       const g = s.games.find(x => x.id === r.sid2);
-      html = g ? viewGame(s, g) : '<p>Game not found.</p>';
+      html = g ? (r.mode === 'play' ? viewPlay(s, g) : viewGame(s, g)) : '<p>Game not found.</p>';
     } else html = viewSeason(s);
   } else if (r.page === 'templates') {
     const t = get('templates', r.id);
     html = t ? viewTpl(t) : '<p>Template not found.</p>';
   } else html = viewHome();
-  const keep = window.scrollY;
+  const keep = render.last === location.hash ? window.scrollY : 0;
+  render.last = location.hash;
   app.innerHTML = html;
+  wake(r.page === 'season' && r.sub === 'game' && r.mode === 'play');
   window.scrollTo(0, keep);
 }
+
+let wl = null;
+async function wake(on) {
+  try {
+    if (on && !wl && navigator.wakeLock) { wl = await navigator.wakeLock.request('screen'); wl.addEventListener('release', () => { wl = null; }); }
+    else if (!on && wl) { await wl.release(); wl = null; }
+  } catch (e) {}
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && route().mode === 'play') wake(true); });
 
 // ---------- actions ----------
 const R = () => route();
@@ -212,6 +268,18 @@ function editVer(fn) {
 }
 
 const actions = {
+  playMode() { const r = R(); go(`#/season/${r.id}/game/${r.sid2}/play`); },
+  stepNext() { const g = R().sid2; setStep(g, getStep(g) + 1); },
+  stepBack() { const g = R().sid2; setStep(g, getStep(g) - 1); },
+  stepReset() { if (confirm('Reset to the starting lineup?')) setStep(R().sid2, 0); },
+  replacePlayer() {
+    const out = document.getElementById('rpOut').value, inn = document.getElementById('rpIn').value;
+    if (!out || !inn) return;
+    editVer((s, g, v) => {
+      v.present[v.present.indexOf(out)] = inn;
+      [v.h1, v.h2].forEach(m => { if (m[out]) { m[inn] = m[out]; delete m[out]; } });
+    });
+  },
   addSeason() {
     const name = prompt('Season name (e.g. Fall 2026 U8)'); if (!name) return;
     const s = { id: uid(), name, template: (merged('templates')[0] || {}).id || '', roster: [], games: [] };

@@ -45,3 +45,9 @@ td select { width: 100%; min-height: 36px; padding: 4px; }
   .crumbs, button, .tabs, .noprint { display: none !important; }
   body { background: #fff; color: #000; } .card { break-inside: avoid; border-color: #999; }
 }
+.curr { border-color: var(--accent); border-width: 2px; }
+.play .pos { font-size: 1.25rem; grid-template-columns: 56px 1fr; } .play .pos b { font-size: .95rem; padding-top: 5px; }
+.bigbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+.bigbtns button { min-height: 64px; font-size: 1.25rem; }
+button:disabled { opacity: .4; cursor: default; }
+details.card summary { cursor: pointer; font-weight: 600; }
