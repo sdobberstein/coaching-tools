@@ -147,7 +147,70 @@
           "name": "Yuan"
         }
       ],
-      "games": []
+      "games": [
+        {
+          "id": "fwl2bq6",
+          "label": "Week 4",
+          "opponent": "Team 3",
+          "date": "2026-10-10",
+          "versions": [
+            {
+              "id": "5lbwv8x",
+              "name": "10 Players",
+              "present": [
+                "xifhp8g",
+                "ohz3qji",
+                "w3bpca5",
+                "27gauv6",
+                "blbkcho",
+                "skj1nw5",
+                "ux1z7va",
+                "62zjlpj",
+                "8bwsr37",
+                "i4syect"
+              ],
+              "h1": {
+                "xifhp8g": "FWD",
+                "62zjlpj": "FWD",
+                "ux1z7va": "DEF",
+                "i4syect": "MID",
+                "ohz3qji": "DEF",
+                "27gauv6": "MID",
+                "skj1nw5": "DEF",
+                "8bwsr37": "FWD",
+                "w3bpca5": "FWD",
+                "blbkcho": "DEF"
+              },
+              "h2": {
+                "i4syect": "FWD",
+                "ohz3qji": "FWD",
+                "ux1z7va": "MID",
+                "xifhp8g": "DEF",
+                "62zjlpj": "DEF",
+                "8bwsr37": "DEF",
+                "w3bpca5": "MID",
+                "27gauv6": "DEF",
+                "blbkcho": "FWD",
+                "skj1nw5": "FWD"
+              },
+              "s1": {
+                "xifhp8g": true,
+                "ohz3qji": true,
+                "ux1z7va": true,
+                "62zjlpj": true,
+                "i4syect": true
+              },
+              "s2": {
+                "xifhp8g": true,
+                "ohz3qji": true,
+                "ux1z7va": true,
+                "62zjlpj": true,
+                "i4syect": true
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "gqqtbes",
