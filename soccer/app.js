@@ -56,15 +56,17 @@ function autoAssign(s, v, tpl) {
   return true;
 }
 
-function poolCheck(tpl, assign, ids) {
+function poolCheck(tpl, assign, ids, starters) {
   const n = ids.length, pool = tpl.pools[String(n)];
   if (!pool) return { pool: null, bad: true, text: `No template for ${n} players — add one under Templates.` };
   let bad = false;
   const parts = tpl.positions.map(pos => {
     const have = ids.filter(i => assign[i] === pos).length;
-    const ok = have === (pool[pos] || 0);
+    const F = Math.min(tpl.field[pos] || 0, have);
+    const c = ids.filter(i => assign[i] === pos && starters && starters[i]).length;
+    const ok = have === (pool[pos] || 0) && (!c || c === F);
     if (!ok) bad = true;
-    return `<span class="${ok ? 'ok' : 'bad'}">${esc(pos)} ${have}/${pool[pos] || 0}</span>`;
+    return `<span class="${ok ? 'ok' : 'bad'}">${esc(pos)} ${have}/${pool[pos] || 0}${c ? ` ▶${c}/${F}` : ''}</span>`;
   });
   const un = ids.filter(i => !assign[i]).length;
   if (un) bad = true;
@@ -131,10 +133,10 @@ function viewPlay(s, g) {
   if (g.versions.length > 1) html += `<div class="tabs">${g.versions.map(x => `<span class="tab ${x.id === ui.ver ? 'active' : ''}" data-act="selVer" data-id="${x.id}">${esc(x.name)}</span>`).join('')}</div>`;
   if (!tpl || !v) return html + `<p class="warn">Set up a template and a lineup version first.</p>`;
   const ids = presentIds(s, v);
-  const c1 = poolCheck(tpl, v.h1, ids), c2 = poolCheck(tpl, v.h2, ids);
+  const c1 = poolCheck(tpl, v.h1, ids, v.s1), c2 = poolCheck(tpl, v.h2, ids, v.s2);
   if (!c1.pool) return html + `<p class="warn">${c1.text}</p>`;
   if (c1.bad || c2.bad) html += `<p class="warn">Pools aren't complete — Half 1: ${c1.text}<br>Half 2: ${c2.text}</p>`;
-  const rot = rotateGame(tpl.positions, tpl.field, v.h1, v.h2, ids);
+  const rot = rotateGame(tpl.positions, tpl.field, v.h1, v.h2, ids, v.s1, v.s2);
   const all = [...rot.h1, ...rot.h2];
   const label = i => `${SEG_NAMES[i >> 2][i & 3]}`;
   const step = getStep(g.id);
@@ -179,22 +181,23 @@ function viewGame(s, g) {
   if (!v) return html + `<p class="muted">Add a lineup version to start. A version is one set of attendees, e.g. "Everyone" or "Without Sam".</p>`;
 
   const ids = presentIds(s, v);
-  const c1 = poolCheck(tpl, v.h1, ids), c2 = poolCheck(tpl, v.h2, ids);
+  const c1 = poolCheck(tpl, v.h1, ids, v.s1), c2 = poolCheck(tpl, v.h2, ids, v.s2);
   html += `
   <div class="row"><button class="primary" data-act="playMode">▶ Game mode</button><button data-act="renVer">Rename</button><button data-act="dupVer">Duplicate</button><button class="danger" data-act="delVer">Delete</button><button onclick="print()">Print</button></div>
   <h2>Who's here (${ids.length})</h2>
   <div class="chips">${s.roster.map(p => `<span class="chip ${v.present.includes(p.id) ? '' : 'off'}" data-act="toggle" data-pid="${p.id}">${esc(p.name)}</span>`).join('')}</div>
   <h2>Position pools</h2>
-  <div class="row between"><span class="muted">Same position all half; positions change at halftime.</span><button class="primary" data-act="auto">Auto-assign</button></div>
+  <div class="row between"><span class="muted">Same position all half; positions change at halftime. Tap ▶ to mark who starts; leave a position unmarked to auto-pick.</span><button class="primary" data-act="auto">Auto-assign</button></div>
   <p class="muted">Half 1: ${c1.text}<br>Half 2: ${c2.text}</p>
   <div class="card"><table><tr><th>Player</th><th>Half 1</th><th>Half 2</th></tr>
   ${ids.map(id => `<tr><td>${esc(pname(s, id))}</td>${[1, 2].map(h => {
     const cur = (h === 1 ? v.h1 : v.h2)[id] || '';
-    return `<td><select data-act="setPos" data-pid="${id}" data-h="${h}"><option value="">—</option>${tpl.positions.map(p => `<option ${p === cur ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></td>`;
+    const st = ((h === 1 ? v.s1 : v.s2) || {})[id];
+    return `<td><div class="cell"><select data-act="setPos" data-pid="${id}" data-h="${h}"><option value="">—</option>${tpl.positions.map(p => `<option ${p === cur ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select><button class="start ${st ? 'on' : ''}" data-act="setStart" data-pid="${id}" data-h="${h}" title="Starts on the field">▶</button></div></td>`;
   }).join('')}</tr>`).join('')}</table></div>`;
 
   if (!c1.pool) return html;
-  const rot = rotateGame(tpl.positions, tpl.field, v.h1, v.h2, ids);
+  const rot = rotateGame(tpl.positions, tpl.field, v.h1, v.h2, ids, v.s1, v.s2);
   html += `<h2>Rotation</h2>`;
   [rot.h1, rot.h2].forEach((segs, hi) => segs.forEach((sg, si) => { html += segCard(s, tpl, sg, SEG_NAMES[hi][si], segTag(hi, si)); }));
   const played = {};
@@ -277,7 +280,7 @@ const actions = {
     if (!out || !inn) return;
     editVer((s, g, v) => {
       v.present[v.present.indexOf(out)] = inn;
-      [v.h1, v.h2].forEach(m => { if (m[out]) { m[inn] = m[out]; delete m[out]; } });
+      [v.h1, v.h2, v.s1 || {}, v.s2 || {}].forEach(m => { if (m[out]) { m[inn] = m[out]; delete m[out]; } });
     });
   },
   addSeason() {
@@ -311,10 +314,23 @@ const actions = {
   toggle(el) {
     editVer((s, g, v) => {
       const id = el.dataset.pid, i = v.present.indexOf(id);
-      if (i >= 0) { v.present.splice(i, 1); delete v.h1[id]; delete v.h2[id]; } else v.present.push(id);
+      if (i >= 0) { v.present.splice(i, 1); delete v.h1[id]; delete v.h2[id]; if (v.s1) delete v.s1[id]; if (v.s2) delete v.s2[id]; } else v.present.push(id);
     });
   },
-  setPos(el) { editVer((s, g, v) => { const m = el.dataset.h === '1' ? v.h1 : v.h2; if (el.value) m[el.dataset.pid] = el.value; else delete m[el.dataset.pid]; }); },
+  setPos(el) {
+    editVer((s, g, v) => {
+      const m = el.dataset.h === '1' ? v.h1 : v.h2, st = (el.dataset.h === '1' ? v.s1 : v.s2) || {};
+      if (el.value) m[el.dataset.pid] = el.value; else delete m[el.dataset.pid];
+      delete st[el.dataset.pid]; // starter flag belongs to the old position pool
+    });
+  },
+  setStart(el) {
+    editVer((s, g, v) => {
+      const k = el.dataset.h === '1' ? 's1' : 's2';
+      v[k] = v[k] || {};
+      if (v[k][el.dataset.pid]) delete v[k][el.dataset.pid]; else v[k][el.dataset.pid] = true;
+    });
+  },
   auto() {
     editVer((s, g, v, tpl) => {
       if (!autoAssign(s, v, tpl)) alert(`The template has no entry for ${presentIds(s, v).length} players. Add one under Templates.`);

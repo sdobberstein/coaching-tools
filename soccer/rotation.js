@@ -9,7 +9,7 @@
 //  - `carry` = bench segments already accrued earlier in the game, so kids who sat more
 //    in half 1 start on the field in half 2.
 
-function rotateHalf(positions, fieldSpots, assign, playerIds, carry, segments) {
+function rotateHalf(positions, fieldSpots, assign, playerIds, carry, segments, starters) {
   segments = segments || 4;
   const tot = Object.assign({}, carry);
   const segs = Array.from({ length: segments }, () => ({ field: {}, bench: {}, in: {}, out: {} }));
@@ -18,7 +18,11 @@ function rotateHalf(positions, fieldSpots, assign, playerIds, carry, segments) {
     const F = Math.min(fieldSpots[pos] || 0, pool.length);
     pool.forEach(p => { if (tot[p] == null) tot[p] = 0; });
     const order = pool.slice().sort((a, b) => tot[a] - tot[b]); // stable
-    let field = order.slice(0, F), bench = order.slice(F);
+    // Explicit starters win when they exactly fill the field spots for this pool.
+    const chosen = starters ? pool.filter(p => starters[p]) : [];
+    let field, bench;
+    if (F > 0 && chosen.length === F) { field = chosen; bench = order.filter(p => !chosen.includes(p)); }
+    else { field = order.slice(0, F); bench = order.slice(F); }
     const fs = {}, bs = {};
     pool.forEach(p => { fs[p] = 0; bs[p] = 0; });
     const accumulate = () => {
@@ -43,9 +47,9 @@ function rotateHalf(positions, fieldSpots, assign, playerIds, carry, segments) {
   return { segs, tot };
 }
 
-function rotateGame(positions, fieldSpots, h1, h2, playerIds) {
-  const a = rotateHalf(positions, fieldSpots, h1, playerIds, {});
-  const b = rotateHalf(positions, fieldSpots, h2, playerIds, a.tot);
+function rotateGame(positions, fieldSpots, h1, h2, playerIds, s1, s2) {
+  const a = rotateHalf(positions, fieldSpots, h1, playerIds, {}, 4, s1);
+  const b = rotateHalf(positions, fieldSpots, h2, playerIds, a.tot, 4, s2);
   return { h1: a.segs, h2: b.segs, benchTotal: b.tot };
 }
 
