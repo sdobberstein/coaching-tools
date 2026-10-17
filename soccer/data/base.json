@@ -209,6 +209,158 @@
               }
             }
           ]
+        },
+        {
+          "id": "8p3zx4m",
+          "label": "Week 5",
+          "opponent": "Team 11 - Lightning (Purple)",
+          "date": "2026-10-17",
+          "versions": [
+            {
+              "id": "dpkrfkl",
+              "name": "9 Players",
+              "present": [
+                "xifhp8g",
+                "ohz3qji",
+                "w3bpca5",
+                "27gauv6",
+                "skj1nw5",
+                "ux1z7va",
+                "62zjlpj",
+                "8bwsr37",
+                "i4syect"
+              ],
+              "h1": {
+                "8bwsr37": "MID",
+                "ohz3qji": "MID",
+                "xifhp8g": "FWD",
+                "27gauv6": "FWD",
+                "skj1nw5": "FWD",
+                "i4syect": "DEF",
+                "w3bpca5": "FWD",
+                "ux1z7va": "DEF",
+                "62zjlpj": "DEF"
+              },
+              "h2": {
+                "27gauv6": "MID",
+                "xifhp8g": "MID",
+                "w3bpca5": "DEF",
+                "skj1nw5": "DEF",
+                "i4syect": "FWD",
+                "62zjlpj": "FWD",
+                "ux1z7va": "FWD",
+                "8bwsr37": "FWD",
+                "ohz3qji": "DEF"
+              },
+              "s1": {
+                "ohz3qji": true,
+                "27gauv6": true,
+                "skj1nw5": true,
+                "ux1z7va": true,
+                "62zjlpj": true
+              },
+              "s2": {
+                "27gauv6": true,
+                "ohz3qji": true,
+                "skj1nw5": true,
+                "i4syect": true,
+                "8bwsr37": true
+              }
+            },
+            {
+              "id": "glqwnl5",
+              "name": "8 Players",
+              "present": [
+                "xifhp8g",
+                "ohz3qji",
+                "w3bpca5",
+                "skj1nw5",
+                "ux1z7va",
+                "62zjlpj",
+                "8bwsr37",
+                "i4syect"
+              ],
+              "h1": {
+                "8bwsr37": "MID",
+                "ohz3qji": "MID",
+                "xifhp8g": "FWD",
+                "skj1nw5": "FWD",
+                "i4syect": "DEF",
+                "w3bpca5": "FWD",
+                "ux1z7va": "DEF",
+                "62zjlpj": "DEF"
+              },
+              "h2": {
+                "xifhp8g": "MID",
+                "w3bpca5": "DEF",
+                "skj1nw5": "DEF",
+                "i4syect": "FWD",
+                "62zjlpj": "MID",
+                "ux1z7va": "FWD",
+                "8bwsr37": "FWD",
+                "ohz3qji": "DEF"
+              },
+              "s1": {
+                "ohz3qji": true,
+                "skj1nw5": true,
+                "ux1z7va": true,
+                "62zjlpj": true,
+                "w3bpca5": true
+              },
+              "s2": {
+                "i4syect": true,
+                "ohz3qji": true,
+                "skj1nw5": true,
+                "8bwsr37": true,
+                "xifhp8g": true
+              }
+            },
+            {
+              "id": "sneyiot",
+              "name": "7 Players",
+              "present": [
+                "xifhp8g",
+                "ohz3qji",
+                "w3bpca5",
+                "skj1nw5",
+                "ux1z7va",
+                "8bwsr37",
+                "i4syect"
+              ],
+              "h1": {
+                "8bwsr37": "MID",
+                "ohz3qji": "MID",
+                "xifhp8g": "FWD",
+                "skj1nw5": "FWD",
+                "i4syect": "DEF",
+                "w3bpca5": "FWD",
+                "ux1z7va": "DEF"
+              },
+              "h2": {
+                "xifhp8g": "MID",
+                "w3bpca5": "DEF",
+                "skj1nw5": "MID",
+                "i4syect": "FWD",
+                "ux1z7va": "FWD",
+                "8bwsr37": "FWD",
+                "ohz3qji": "DEF"
+              },
+              "s1": {
+                "ohz3qji": true,
+                "skj1nw5": true,
+                "ux1z7va": true,
+                "w3bpca5": true,
+                "i4syect": true
+              },
+              "s2": {
+                "ohz3qji": true,
+                "xifhp8g": true,
+                "w3bpca5": true,
+                "8bwsr37": true,
+                "ux1z7va": true
+              }
+            }
+          ]
         }
       ]
     },
@@ -310,6 +462,130 @@
                 "zptxbha": "DEF",
                 "axvhydm": "MID",
                 "emoz9uz": "MID"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vkg8v6w",
+          "label": "Week 5",
+          "opponent": "Team 12 - Evil Oranges (Deep Orange)",
+          "date": "2026-10-17",
+          "versions": [
+            {
+              "id": "piqwokm",
+              "name": "10 Players",
+              "present": [
+                "2whtegh",
+                "03u29o3",
+                "mw4yl47",
+                "bqc6ahp",
+                "am5zpl9",
+                "p02isbh",
+                "yqudoe0",
+                "jh4d2tn",
+                "zptxbha",
+                "axvhydm",
+                "emoz9uz"
+              ],
+              "h1": {
+                "jh4d2tn": "GK",
+                "yqudoe0": "FWD",
+                "2whtegh": "DEF",
+                "p02isbh": "DEF",
+                "zptxbha": "DEF",
+                "03u29o3": "FWD",
+                "axvhydm": "MID",
+                "bqc6ahp": "MID",
+                "mw4yl47": "MID",
+                "am5zpl9": "DEF",
+                "emoz9uz": "MID"
+              },
+              "h2": {
+                "yqudoe0": "GK",
+                "jh4d2tn": "FWD",
+                "2whtegh": "MID",
+                "axvhydm": "DEF",
+                "mw4yl47": "DEF",
+                "bqc6ahp": "DEF",
+                "p02isbh": "FWD",
+                "am5zpl9": "MID",
+                "emoz9uz": "DEF",
+                "zptxbha": "MID",
+                "03u29o3": "MID"
+              },
+              "s1": {
+                "jh4d2tn": true,
+                "2whtegh": true,
+                "zptxbha": true,
+                "mw4yl47": true,
+                "axvhydm": true,
+                "emoz9uz": true
+              },
+              "s2": {
+                "yqudoe0": true,
+                "2whtegh": true,
+                "zptxbha": true,
+                "emoz9uz": true,
+                "03u29o3": true,
+                "mw4yl47": true
+              }
+            },
+            {
+              "id": "forzxyy",
+              "name": "9 Players",
+              "present": [
+                "2whtegh",
+                "03u29o3",
+                "mw4yl47",
+                "bqc6ahp",
+                "p02isbh",
+                "yqudoe0",
+                "jh4d2tn",
+                "zptxbha",
+                "axvhydm",
+                "emoz9uz"
+              ],
+              "h1": {
+                "jh4d2tn": "GK",
+                "yqudoe0": "FWD",
+                "2whtegh": "DEF",
+                "p02isbh": "DEF",
+                "zptxbha": "DEF",
+                "03u29o3": "FWD",
+                "axvhydm": "MID",
+                "bqc6ahp": "MID",
+                "mw4yl47": "MID",
+                "emoz9uz": "MID"
+              },
+              "h2": {
+                "yqudoe0": "GK",
+                "jh4d2tn": "FWD",
+                "2whtegh": "MID",
+                "axvhydm": "MID",
+                "mw4yl47": "DEF",
+                "bqc6ahp": "DEF",
+                "p02isbh": "FWD",
+                "emoz9uz": "DEF",
+                "zptxbha": "MID",
+                "03u29o3": "MID"
+              },
+              "s1": {
+                "jh4d2tn": true,
+                "2whtegh": true,
+                "zptxbha": true,
+                "mw4yl47": true,
+                "axvhydm": true,
+                "emoz9uz": true
+              },
+              "s2": {
+                "yqudoe0": true,
+                "emoz9uz": true,
+                "p02isbh": true,
+                "03u29o3": true,
+                "axvhydm": true,
+                "2whtegh": true,
+                "mw4yl47": true
               }
             }
           ]
