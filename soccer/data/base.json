@@ -361,6 +361,65 @@
               }
             }
           ]
+        },
+        {
+          "id": "26vcomi",
+          "label": "Week 6",
+          "opponent": "Sea Turtles (Dark Green)",
+          "date": "2026-10-24",
+          "versions": [
+            {
+              "id": "r95tb6z",
+              "name": "9 Players",
+              "present": [
+                "xifhp8g",
+                "ohz3qji",
+                "w3bpca5",
+                "blbkcho",
+                "skj1nw5",
+                "ux1z7va",
+                "62zjlpj",
+                "8bwsr37",
+                "i4syect"
+              ],
+              "h1": {
+                "skj1nw5": "FWD",
+                "w3bpca5": "FWD",
+                "xifhp8g": "MID",
+                "ohz3qji": "FWD",
+                "ux1z7va": "FWD",
+                "i4syect": "MID",
+                "8bwsr37": "DEF",
+                "blbkcho": "DEF",
+                "62zjlpj": "DEF"
+              },
+              "h2": {
+                "skj1nw5": "DEF",
+                "xifhp8g": "DEF",
+                "w3bpca5": "DEF",
+                "8bwsr37": "FWD",
+                "blbkcho": "MID",
+                "62zjlpj": "FWD",
+                "ohz3qji": "MID",
+                "ux1z7va": "FWD",
+                "i4syect": "FWD"
+              },
+              "s1": {
+                "xifhp8g": true,
+                "w3bpca5": true,
+                "skj1nw5": true,
+                "8bwsr37": true,
+                "blbkcho": true
+              },
+              "s2": {
+                "xifhp8g": true,
+                "skj1nw5": true,
+                "8bwsr37": true,
+                "62zjlpj": true,
+                "blbkcho": true
+              }
+            }
+          ]
         }
       ]
     },
@@ -586,6 +645,61 @@
                 "axvhydm": true,
                 "2whtegh": true,
                 "mw4yl47": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "ons38a3",
+          "label": "Week 6",
+          "opponent": "The Silverbacks",
+          "date": "2026-10-24",
+          "versions": [
+            {
+              "id": "tfqgl0l",
+              "name": "10 Players",
+              "present": [
+                "2whtegh",
+                "mw4yl47",
+                "bqc6ahp",
+                "am5zpl9",
+                "p02isbh",
+                "yqudoe0",
+                "jh4d2tn",
+                "zptxbha",
+                "axvhydm",
+                "emoz9uz"
+              ],
+              "h1": {
+                "emoz9uz": "GK",
+                "bqc6ahp": "DEF",
+                "2whtegh": "MID",
+                "axvhydm": "FWD",
+                "jh4d2tn": "MID",
+                "am5zpl9": "FWD",
+                "p02isbh": "DEF",
+                "zptxbha": "DEF",
+                "mw4yl47": "MID",
+                "yqudoe0": "MID"
+              },
+              "h2": {
+                "axvhydm": "GK",
+                "2whtegh": "MID",
+                "jh4d2tn": "MID",
+                "emoz9uz": "FWD",
+                "mw4yl47": "FWD",
+                "bqc6ahp": "MID",
+                "am5zpl9": "DEF",
+                "p02isbh": "MID",
+                "yqudoe0": "DEF",
+                "zptxbha": "DEF"
+              },
+              "s1": {
+                "emoz9uz": true,
+                "axvhydm": true
+              },
+              "s2": {
+                "axvhydm": true
               }
             }
           ]
